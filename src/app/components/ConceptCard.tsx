@@ -29,7 +29,7 @@ export function ConceptCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay }}
       whileHover={{ y: -8, transition: { duration: 0.2 } }}
-      className={`group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 ${floatingClass}`}
+      className={`group relative bg-white rounded-0 p-8 shadow-lg hover:shadow-lg transition-all duration-300 ${floatingClass}`}
     >
       <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-gray-50 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       
@@ -38,7 +38,7 @@ export function ConceptCard({
           <StatusBadge status={status} color={color} />
         </div>
         
-        <h3 className="text-2xl font-bold mb-3 text-gray-900">
+        <h3 className="text-lg font-bold mb-3 text-gray-900">
           {title}
         </h3>
         
@@ -46,7 +46,7 @@ export function ConceptCard({
           {description}
         </p>
         
-        <button className="inline-flex items-center gap-2 text-gray-900 font-medium group-hover:gap-3 transition-all duration-300">
+        <button className="inline-flex items-center gap-2 text-gray-900 font-medium group-hover:gap-3 transition-all duration-300 text-sm">
           View Concept
           <ArrowRight className="w-4 h-4" />
         </button>

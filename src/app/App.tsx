@@ -1,10 +1,11 @@
+import { useState } from 'react';
 import { motion } from 'motion/react';
 import { ConceptCard } from './components/ConceptCard';
 import { BuildingItem } from './components/BuildingItem';
 import { LabDecorations } from './components/LabDecorations';
 import { ExperimentMetrics } from './components/ExperimentMetrics';
 import { LabNotebook } from './components/LabNotebook';
-import { Sparkles, Mail, Beaker, FlaskConical, TestTube2, Briefcase, FileText, User } from 'lucide-react';
+import { Sparkles, Mail, Beaker, FlaskConical, TestTube2, Briefcase, FileText, User, MapPin, ArrowRight, ArrowLeft } from 'lucide-react';
 
 export default function App() {
   const featuredConcepts = [
@@ -28,36 +29,31 @@ export default function App() {
     },
   ];
 
-  const buildingItems = [
-    'Figuring out how to make trust visible in digital marketplaces',
-    'Testing ways to automate boring partnership workflows',
-    'Playing with modular learning systems that adapt',
-    'Making products that work for everyone, accessibility first',
-    'Connecting systems that should talk to each other',
-  ];
+  const [buildingItems, setBuildingItems] = useState([
+    { text: 'Figuring out how to make trust visible in digital marketplaces', checked: true },
+    { text: 'Testing ways to automate boring partnership workflows', checked: false },
+    { text: 'Playing with modular learning systems that adapt', checked: true },
+    { text: 'Making products that work for everyone, accessibility first', checked: false },
+    { text: 'Connecting systems that should talk to each other', checked: false },
+  ]);
+
+  const toggleBuildingItem = (index: number) => {
+    setBuildingItems(prev => prev.map((item, i) => 
+      i === index ? { ...item, checked: !item.checked } : item
+    ));
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 relative overflow-hidden">
+    <div className="min-h-screen bg-[#E4F1D7] relative overflow-hidden">
       {/* Floating lab decorations */}
       <LabDecorations />
       
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-20">
-        <svg width="100%" height="100%">
-          <defs>
-            <pattern id="dots" width="30" height="30" patternUnits="userSpaceOnUse">
-              <circle cx="2" cy="2" r="1" fill="#9ca3af" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#dots)" />
-        </svg>
-      </div>
-
-      {/* Subtle grid lines */}
-      <div className="absolute inset-0 opacity-5">
+      {/* Subtle grid lines with dots */}
+      <div className="absolute inset-0 opacity-10">
         <div className="h-full w-full" style={{
-          backgroundImage: 'linear-gradient(#9ca3af 1px, transparent 1px), linear-gradient(90deg, #9ca3af 1px, transparent 1px)',
-          backgroundSize: '60px 60px'
+          backgroundImage: 'linear-gradient(#9ca3af 1px, transparent 1px), linear-gradient(90deg, #9ca3af 1px, transparent 1px), radial-gradient(circle, #9ca3af 1px, transparent 1.5px)',
+          backgroundSize: '60px 60px',
+          backgroundPosition: '0 0, 0 0, 0 0'
         }} />
       </div>
 
@@ -67,28 +63,116 @@ export default function App() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-20"
-          >
-            <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-white rounded-full shadow-sm border border-gray-200">
-              <Sparkles className="w-4 h-4 text-yellow-500" />
-              <span className="text-sm font-medium text-gray-700">Product Lab</span>
+          transition={{ duration: 0.8 }}
+          className="text-center mb-20"
+        >
+            {/* Photo carousel - moves right to left infinitely, stops on hover */}
+            <div className="relative mb-12 flex justify-center">
+              <div className="max-w-[70%] p-2 overflow-hidden">
+                <div
+                  className="flex gap-6 animate-scroll"
+                  style={{ width: "fit-content" }}
+                >
+                  {/* Photo 1 - Yellow shirt - San Francisco */}
+                  <div className="relative flex-shrink-0 rotate-3 rounded-none border-6 border-white group">
+                    <div className="w-40 h-56 md:w-48 md:h-72 overflow-hidden rounded-none">
+                      <img 
+                        src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face" 
+                        alt="Photo 1" 
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-white text-black px-3 py-1.5 rounded-full text-xs font-medium shadow-md flex items-center gap-1 whitespace-nowrap">
+                      <MapPin className="w-3 h-3" />
+                      San Francisco
+                    </div>
+                  </div>
+                  {/* Photo 2 - Green shirt - New York */}
+                  <div className="relative flex-shrink-0 -rotate-2 rounded-none border-6 border-white group">
+                    <div className="w-40 h-56 md:w-48 md:h-72 overflow-hidden rounded-none">
+                      <img 
+                        src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face" 
+                        alt="Photo 2" 
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-white text-black px-3 py-1.5 rounded-full text-xs font-medium shadow-md flex items-center gap-1 whitespace-nowrap">
+                      <MapPin className="w-3 h-3" />
+                      New York
+                    </div>
+                  </div>
+                  {/* Photo 3 - Blue shirt - London */}
+                  <div className="relative flex-shrink-0 rotate-2 rounded-none border-6 border-white group">
+                    <div className="w-40 h-56 md:w-48 md:h-72 overflow-hidden rounded-none">
+                      <img 
+                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face" 
+                        alt="Photo 3" 
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-white text-black px-3 py-1.5 rounded-full text-xs font-medium shadow-md flex items-center gap-1 whitespace-nowrap">
+                      <MapPin className="w-3 h-3" />
+                      London
+                    </div>
+                  </div>
+                  {/* Duplicate for seamless loop */}
+                  {/* Photo 1 - Yellow shirt - San Francisco */}
+                  <div className="relative flex-shrink-0 rotate-3 rounded-none border-6 border-white group">
+                    <div className="w-40 h-56 md:w-48 md:h-72 overflow-hidden rounded-none">
+                      <img 
+                        src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face" 
+                        alt="Photo 1" 
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-white text-black px-3 py-1.5 rounded-full text-xs font-medium shadow-md flex items-center gap-1 whitespace-nowrap">
+                      <MapPin className="w-3 h-3" />
+                      San Francisco
+                    </div>
+                  </div>
+                  {/* Photo 2 - Green shirt - New York */}
+                  <div className="relative flex-shrink-0 -rotate-2 rounded-none border-6 border-white group">
+                    <div className="w-40 h-56 md:w-48 md:h-72 overflow-hidden rounded-none">
+                      <img 
+                        src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face" 
+                        alt="Photo 2" 
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-white text-black px-3 py-1.5 rounded-full text-xs font-medium shadow-md flex items-center gap-1 whitespace-nowrap">
+                      <MapPin className="w-3 h-3" />
+                      New York
+                    </div>
+                  </div>
+                  {/* Photo 3 - Blue shirt - London */}
+                  <div className="relative flex-shrink-0 rotate-2 rounded-none border-6 border-white group">
+                    <div className="w-40 h-56 md:w-48 md:h-72 overflow-hidden rounded-none">
+                      <img 
+                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face" 
+                        alt="Photo 3" 
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-white text-black px-3 py-1.5 rounded-full text-xs font-medium shadow-md flex items-center gap-1 whitespace-nowrap">
+                      <MapPin className="w-3 h-3" />
+                      London
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 leading-tight">
-              Building digital products that{' '}
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                actually solve problems
-              </span>
-              {' '}—{' '}
-              <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
-                one experiment at a time
-              </span>
-              .
+            <div className="inline-flex items-center gap-2  px-4 py-2 bg-white mb-4 rounded-full shadow-sm border border-gray-200">
+              <Sparkles className="w-4 h-4 text-yellow-500" />
+              <span className="text-sm font-medium text-gray-700">Product Laboratory</span>
+            </div>
+            
+            <h1 className="text-5xl font-bold text-gray-900 mb-6 leading-tight">
+              Real problems. <br />Thoughtful products.
             </h1>
             
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Hey! I'm a product designer from Kampala, experimenting with ideas in access, partnerships, and education. Welcome to my digital lab.
+            <p className="text-lg text-gray-900 max-w-3xl mx-auto">
+              I build digital products in Kampala, Uganda - <br/>exploring better access, connected healthcare, and education. <br />Welcome to my lab!
             </p>
           </motion.div>
 
@@ -100,15 +184,15 @@ export default function App() {
               animate={{ opacity: 1, y: 0, rotate: -1 }}
               transition={{ duration: 0.6, delay: 0.3 }}
               whileHover={{ rotate: 0, scale: 1.05, y: -5 }}
-              className="bg-white rounded-xl p-6 shadow-lg border border-gray-200 cursor-pointer group"
+              className="bg-white p-6 shadow-lg cursor-pointer group flex items-center justify-between"
             >
-              <div className="w-12 h-12 rounded-lg mb-3 flex items-center justify-center bg-gradient-to-br from-blue-500 to-blue-600">
-                <Briefcase className="w-6 h-6 text-white" />
+              <div>
+                <h3 className="font-bold text-gray-900 mb-2 text-base">Work Experience</h3>
+                <p className="text-sm text-gray-600">
+                  The projects I've worked on and what I learned
+                </p>
               </div>
-              <h3 className="font-bold text-gray-900 mb-2 text-lg">Work Experience</h3>
-              <p className="text-sm text-gray-600">
-                The projects I've worked on and what I learned
-              </p>
+              <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors flex-shrink-0 ml-4" />
             </motion.a>
 
             <motion.a
@@ -117,15 +201,15 @@ export default function App() {
               animate={{ opacity: 1, y: 0, rotate: 1 }}
               transition={{ duration: 0.6, delay: 0.45 }}
               whileHover={{ rotate: 0, scale: 1.05, y: -5 }}
-              className="bg-white rounded-xl p-6 shadow-lg border border-gray-200 cursor-pointer group"
+              className="bg-white p-6 shadow-lg cursor-pointer group flex items-center justify-between"
             >
-              <div className="w-12 h-12 rounded-lg mb-3 flex items-center justify-center bg-gradient-to-br from-green-500 to-green-600">
-                <FileText className="w-6 h-6 text-white" />
+              <div>
+                <h3 className="font-bold text-gray-900 mb-2 text-base">Resume</h3>
+                <p className="text-sm text-gray-600">
+                  The formal stuff — if you need it
+                </p>
               </div>
-              <h3 className="font-bold text-gray-900 mb-2 text-lg">Resume</h3>
-              <p className="text-sm text-gray-600">
-                The formal stuff — if you need it
-              </p>
+              <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors flex-shrink-0 ml-4" />
             </motion.a>
 
             <motion.a
@@ -134,15 +218,15 @@ export default function App() {
               animate={{ opacity: 1, y: 0, rotate: -1 }}
               transition={{ duration: 0.6, delay: 0.6 }}
               whileHover={{ rotate: 0, scale: 1.05, y: -5 }}
-              className="bg-white rounded-xl p-6 shadow-lg border border-gray-200 cursor-pointer group"
+              className="bg-white p-6 shadow-lg cursor-pointer group flex items-center justify-between"
             >
-              <div className="w-12 h-12 rounded-lg mb-3 flex items-center justify-center bg-gradient-to-br from-purple-500 to-purple-600">
-                <User className="w-6 h-6 text-white" />
+              <div>
+                <h3 className="font-bold text-gray-900 mb-2 text-base">About Me</h3>
+                <p className="text-sm text-gray-600">
+                  Who I am, where I'm from, and what drives me
+                </p>
               </div>
-              <h3 className="font-bold text-gray-900 mb-2 text-lg">About Me</h3>
-              <p className="text-sm text-gray-600">
-                Who I am, where I'm from, and what drives me
-              </p>
+              <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors flex-shrink-0 ml-4" />
             </motion.a>
           </div>
         </section>
@@ -156,9 +240,9 @@ export default function App() {
             transition={{ duration: 0.6 }}
           >
             <div className="mb-12">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">Featured Concepts</h2>
-              <p className="text-lg text-gray-600">
-                Things I'm currently cooking up — trying to solve real problems, one prototype at a time
+              <h2 className="text-3xl font-bold text-gray-900 mb-2">Featured Concepts</h2>
+              <p className="text-base text-gray-600">
+                Things I'm currently cooking up - trying to solve real problems, one prototype at a time
               </p>
             </div>
 
@@ -186,11 +270,11 @@ export default function App() {
             transition={{ duration: 0.6 }}
           >
             <div className="mb-12">
-              <div className="flex items-center gap-3 mb-4">
+              <div className="flex items-center gap-3 mb-2">
                 <Beaker className="w-8 h-8 text-blue-600" />
-                <h2 className="text-4xl font-bold text-gray-900">Lab Metrics</h2>
+                <h2 className="text-3xl font-bold text-gray-900">Lab Metrics</h2>
               </div>
-              <p className="text-lg text-gray-600">
+              <p className="text-base text-gray-600">
                 How things are going — keeping it real with the progress
               </p>
             </div>
@@ -230,11 +314,11 @@ export default function App() {
             transition={{ duration: 0.6 }}
           >
             <div className="mb-12">
-              <div className="flex items-center gap-3 mb-4">
+              <div className="flex items-center gap-3 mb-2">
                 <FlaskConical className="w-8 h-8 text-purple-600" />
-                <h2 className="text-4xl font-bold text-gray-900">Lab Notebook</h2>
+                <h2 className="text-3xl font-bold text-gray-900">Lab Notebook</h2>
               </div>
-              <p className="text-lg text-gray-600">
+              <p className="text-base text-gray-600">
                 Quick notes from the field — what's working, what's not
               </p>
             </div>
@@ -271,22 +355,22 @@ export default function App() {
             transition={{ duration: 0.6 }}
           >
             <div className="mb-12">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">What I'm Building</h2>
-              <p className="text-lg text-gray-600">
+              <h2 className="text-4xl font-bold text-gray-900 mb-2">What I'm Building</h2>
+              <p className="text-base text-gray-600">
                 Random ideas and experiments I'm tinkering with right now
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl">
+            <div className="bg-white border border-gray-200 shadow-sm px-6 py-2 max-w-2xl">
               {buildingItems.map((item, idx) => (
-                <BuildingItem key={idx} text={item} delay={0.1 + idx * 0.1} />
+                <BuildingItem key={idx} text={item.text} checked={item.checked} delay={0.1 + idx * 0.1} onToggle={() => toggleBuildingItem(idx)} />
               ))}
             </div>
           </motion.div>
         </section>
 
         {/* Footer / Closing Section */}
-        <footer className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-20 border-t border-gray-200 mt-20">
+        <footer className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-20 mt-17 border-t border-gray-500">
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -307,7 +391,7 @@ export default function App() {
               Let's chat
             </motion.button>
 
-            <div className="mt-16 pt-8 border-t border-gray-200">
+            <div className="mt-16">
               <p className="text-sm text-gray-500">
                 © 2026 · Built with love from Kampala 🇺🇬
               </p>

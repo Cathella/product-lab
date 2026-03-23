@@ -17,7 +17,7 @@ export function LabDecorations() {
           key={idx}
           initial={{ opacity: 0, y: 20 }}
           animate={{ 
-            opacity: [0.4, 0.6, 0.4],
+            opacity: [0.2, 0.35, 0.2],
             y: [0, -20, 0],
             rotate: [rotate, rotate + 5, rotate]
           }}
@@ -47,7 +47,7 @@ export function LabDecorations() {
           {/* Main icon */}
           <Icon 
             className="w-14 h-14 relative z-10" 
-            strokeWidth={1.5} 
+            strokeWidth={1} 
             style={{ 
               color: color,
             }} 

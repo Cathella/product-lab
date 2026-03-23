@@ -15,7 +15,7 @@ export function ExperimentMetrics({ label, value, unit, color, delay = 0 }: Expe
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay }}
-      className="bg-white rounded-xl p-6 shadow-md border-2 border-gray-100"
+      className="bg-white rounded-0 p-6 shadow-lg border-gray-100"
     >
       <div className="flex items-center gap-3 mb-2">
         <div 
